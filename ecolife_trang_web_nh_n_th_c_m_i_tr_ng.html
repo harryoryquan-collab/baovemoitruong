@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoLife — Hành Trình Vì Một Trái Đất Xanh</title>
+
+    <!-- Google Fonts: Be Vietnam Pro (Chuẩn tiếng Việt, nét chữ to rõ) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* === BIẾN HỆ THỐNG & RESET === */
+        :root {
+            --primary: #15803d;
+            --primary-dark: #166534;
+            --primary-light: #22c55e;
+            --accent: #ca8a04;
+            --bg-base: #f0fdf4;
+            --text-main: #0f172a;       /* Chữ xanh đen đậm dễ đọc */
+            --text-muted: #334155;      /* Chữ phụ màu sẫm nét hơn */
+            --glass-bg: rgba(255, 255, 255, 0.94);
+            --glass-border: #bbf7d0;
+            --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 12px 28px rgba(21, 128, 61, 0.15);
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background: linear-gradient(165deg, #f0fdf4 0%, #dcfce7 50%, #bbf7d0 100%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            font-size: 1.15rem; /* Cỡ chữ cơ bản to rõ */
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* === THANH TIẾN TRÌNH ĐỌC === */
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 6px;
+            background: linear-gradient(to right, #4ade80, var(--primary));
+            width: 0%;
+            z-index: 1001;
+            transition: width 0.1s ease-out;
+        }
+
+        /* === NAVIGATION BAR === */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 2px solid #bbf7d0;
+            padding: 1.2rem 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            background: var(--primary);
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            font-size: 1.4rem;
+            box-shadow: 0 4px 12px rgba(21, 128, 61, 0.3);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 32px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.25s ease;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        /* === HERO SECTION === */
+        .hero {
+            position: relative;
+            padding: 6rem 1.5rem 5rem;
+            text-align: center;
+            max-width: 1100px;
+            margin: 2rem auto;
+            border-radius: 36px;
+            overflow: hidden;
+            background: linear-gradient(rgba(5, 46, 22, 0.65), rgba(5, 46, 22, 0.75)), 
+                        url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 24px;
+            background: rgba(220, 252, 231, 0.95);
+            color: var(--primary-dark);
+            border-radius: 30px;
+            font-size: 1.05rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            border: 2px solid #86efac;
+        }
+
+        .hero h1 {
+            font-size: 3.6rem;
+            font-weight: 900;
+            line-height: 1.3;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.35rem;
+            color: #e2e8f0;
+            font-weight: 500;
+            max-width: 800px;
+            margin: 0 auto 2.5rem;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+
+        .btn-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, #22c55e 0%, var(--primary) 100%);
+            color: white;
+            padding: 18px 42px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            text-decoration: none;
+            box-shadow: 0 10px 25px rgba(34, 197, 94, 0.4);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-cta:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(34, 197, 94, 0.6);
+        }
+
+        /* === TIÊU ĐỀ MỤC === */
+        .section-header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.6rem;
+            font-weight: 900;
+            color: #052e16;
+            letter-spacing: -0.5px;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        /* === CONTAINER CHUNG === */
+        .container {
+            max-width: 1140px;
+            margin: 5rem auto;
+            padding: 0 24px;
+        }
+
+        /* === KHU VỰC THỐNG KÊ (CARDS CÓ ẢNH) === */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+        }
+
+        .stat-card {
+            background: var(--glass-bg);
+            border-radius: 28px;
+            overflow: hidden;
+            border: 2px solid var(--glass-border);
+            box-shadow: var(--shadow-sm);
+            backdrop-filter: blur(10px);
+            transition: all 0.35s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .stat-img-wrapper {
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .stat-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .stat-card:hover .stat-img {
+            transform: scale(1.08);
+        }
+
+        .stat-body {
+            padding: 32px;
+            flex-grow: 1;
+        }
+
+        .stat-card h3 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: #052e16;
+        }
+
+        .stat-card p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        /* === MỤC GIẢI PHÁP VÀ TÁC ĐỘNG (KÈM ẢNH THỰC TẾ) === */
+        .solutions-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .solution-card {
+            background: var(--glass-bg);
+            border-radius: 28px;
+            overflow: hidden;
+            border: 2px solid var(--glass-border);
+            box-shadow: var(--shadow-sm);
+            backdrop-filter: blur(10px);
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            transition: all 0.3s ease;
+        }
+
+        .solution-card:hover {
+            transform: scale(1.01);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary);
+        }
+
+        .sol-img-container {
+            width: 100%;
+            height: 100%;
+            min-height: 280px;
+            overflow: hidden;
+        }
+
+        .sol-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .solution-card:hover .sol-img {
+            transform: scale(1.06);
+        }
+
+        .sol-content-body {
+            padding: 36px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .sol-header {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 16px;
+        }
+
+        .sol-number {
+            width: 60px;
+            height: 60px;
+            background: #dcfce7;
+            color: var(--primary-dark);
+            border-radius: 18px;
+            display: grid;
+            place-items: center;
+            font-size: 1.8rem;
+            font-weight: 900;
+            border: 2px solid #86efac;
+            flex-shrink: 0;
+        }
+
+        .sol-content-body h3 {
+            font-size: 1.7rem;
+            font-weight: 800;
+            color: #052e16;
+            line-height: 1.3;
+        }
+
+        .sol-content-body p {
+            color: var(--text-muted);
+            font-size: 1.15rem;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .impact-pill {
+            background: #f0fdf4;
+            border: 2px solid #86efac;
+            padding: 18px 24px;
+            border-radius: 18px;
+            font-size: 1.08rem;
+            color: #14532d;
+            line-height: 1.7;
+        }
+
+        .impact-pill strong {
+            color: #052e16;
+            font-weight: 800;
+        }
+
+        /* === FORM CHUẨN HIỆN ĐẠI === */
+        .form-card {
+            max-width: 760px;
+            margin: 6rem auto;
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 32px;
+            padding: 52px;
+            box-shadow: var(--shadow-lg);
+            border: 2px solid #bbf7d0;
+        }
+
+        .form-group {
+            margin-bottom: 28px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 800;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #052e16;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 18px 22px;
+            border: 2px solid #cbd5e1;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-family: inherit;
+            font-weight: 600;
+            outline: none;
+            transition: border-color 0.25s ease;
+            background: #f8fafc;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            background: white;
+        }
+
+        /* === FOOTER === */
+        footer {
+            background: #052e16;
+            color: #bbf7d0;
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        footer strong {
+            color: white;
+            font-weight: 800;
+        }
+
+        /* === RESPONSIVE DÀNH CHO DI ĐỘNG === */
+        @media (max-width: 900px) {
+            .solution-card {
+                grid-template-columns: 1fr;
+            }
+            .sol-img-container {
+                height: 240px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body { font-size: 1.05rem; }
+            h1 { font-size: 2.3rem; }
+            .hero { padding: 4rem 1.2rem 3rem; border-radius: 24px; }
+            .section-header h2 { font-size: 2rem; }
+            header { padding: 1rem 5%; }
+            nav { display: none; }
+            .sol-content-body { padding: 24px; }
+            .form-card { padding: 32px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Thanh đếm độ dài bài đọc -->
+    <div id="progress-bar"></div>
+
+    <!-- Navigation Bar -->
+    <header>
+        <a href="#" class="logo">
+            <span class="logo-icon">🌱</span>
+            <span>EcoLife</span>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="#about">Vấn Đề</a></li>
+                <li><a href="#solutions">Giải Pháp & Tác Động</a></li>
+                <li><a href="#contact">Cam Kết</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Banner chính (Hero Section có hình nền thiên nhiên) -->
+    <section class="hero">
+        <span class="badge">🍃 Vì Một Tương Lai Xanh</span>
+        <h1>Hành Động Nhỏ.<br>Thay Đổi Đại Dương.</h1>
+        <p>Mọi quyết định tiêu dùng và sinh hoạt của bạn hôm nay đều trực tiếp định hình hệ sinh thái Trái Đất ngày mai.</p>
+        <button class="btn-cta" onclick="scrollToSection('contact')">
+            <span>Tham Gia Cam Kết Sống Xanh</span>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+    </section>
+
+    <!-- Khối 1: Thống kê vấn đề (Có ảnh trực quan) -->
+    <section id="about" class="container">
+        <div class="section-header">
+            <h2>Những Con Số Báo Động</h2>
+            <p>Thực trạng môi trường toàn cầu đang đòi hỏi sự thay đổi khẩn cấp từ chúng ta</p>
+        </div>
+
+        <div class="stats-grid">
+            <!-- Vấn đề 1 -->
+            <div class="stat-card">
+                <div class="stat-img-wrapper">
+                    <img class="stat-img" src="https://images.unsplash.com/photo-1621451537084-482c73073a0f?auto=format&fit=crop&w=800&q=80" alt="Rác thải nhựa đại dương" onerror="this.src='https://placehold.co/800x500/15803d/ffffff?text=Rac+Thai+Nhua'">
+                </div>
+                <div class="stat-body">
+                    <h3>🌊 8 Triệu Tấn Nhựa</h3>
+                    <p>Số lượng rác thải nhựa đổ ra đại dương mỗi năm, tương đương với việc xả một xe rác đầy vào biển mỗi phút.</p>
+                </div>
+            </div>
+
+            <!-- Vấn đề 2 -->
+            <div class="stat-card">
+                <div class="stat-img-wrapper">
+                    <img class="stat-img" src="https://images.unsplash.com/photo-1569163139599-0f4517e36f31?auto=format&fit=crop&w=800&q=80" alt="Biến đổi khí hậu băng tan" onerror="this.src='https://placehold.co/800x500/15803d/ffffff?text=Bien+Doi+Khi+Hau'">
+                </div>
+                <div class="stat-body">
+                    <h3>🌡️ Tăng 1.1°C Nhiệt Độ</h3>
+                    <p>Trái Đất đã nóng lên đáng kể so với thời kỳ tiền công nghiệp, làm gia tăng thiên tai cực đoan và làm băng tan nhanh chóng.</p>
+                </div>
+            </div>
+
+            <!-- Vấn đề 3 -->
+            <div class="stat-card">
+                <div class="stat-img-wrapper">
+                    <img class="stat-img" src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&w=800&q=80" alt="Suy giảm rừng tự nhiên" onerror="this.src='https://placehold.co/800x500/15803d/ffffff?text=Suy+Giam+Rung'">
+                </div>
+                <div class="stat-body">
+                    <h3>🌳 10 Triệu Hecta Rừng</h3>
+                    <p>Diện tích rừng biến mất mỗi năm do đốn hạ và cháy rừng, tước đi lá phổi tự nhiên hấp thụ lượng lớn CO2 của Trái Đất.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Khối 2: Giải pháp & Tác động (Có ảnh thực tế đi kèm) -->
+    <section id="solutions" class="container">
+        <div class="section-header">
+            <h2>Giải Pháp & Tác Động Thực Tế</h2>
+            <p>Thay đổi thói quen nhỏ để kiến tạo kết quả lớn cho hành tinh</p>
+        </div>
+
+        <div class="solutions-wrapper">
+            <!-- Giải pháp 1 -->
+            <div class="solution-card">
+                <div class="sol-img-container">
+                    <img class="sol-img" src="https://images.unsplash.com/photo-1528323273322-d81458248d40?auto=format&fit=crop&w=800&q=80" alt="Bình nước cá nhân" onerror="this.src='https://placehold.co/800x600/22c55e/ffffff?text=Do+Dung+Tai+Su+Dung'">
+                </div>
+                <div class="sol-content-body">
+                    <div class="sol-header">
+                        <div class="sol-number">01</div>
+                        <h3>Cắt Giảm Đồ Nhựa Dùng Một Lần</h3>
+                    </div>
+                    <p>Sử dụng bình giữ nhiệt cá nhân, ống hút tre/thủy thủy và hộp đựng thực phẩm tái sử dụng trong cuộc sống hàng ngày.</p>
+                    <div class="impact-pill">
+                        <strong>💡 Tác động trực tiếp:</strong> Giảm rác thải nhựa chôn lấp khó phân hủy, ngăn chặn vi nhựa xâm nhập vào chuỗi thức ăn và nguồn nước sạch của con người.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Giải pháp 2 -->
+            <div class="solution-card">
+                <div class="sol-img-container">
+                    <img class="sol-img" src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=800&q=80" alt="Năng lượng mặt trời tiết kiệm điện" onerror="this.src='https://placehold.co/800x600/22c55e/ffffff?text=Tiet+Kiem+Nang+Luong'">
+                </div>
+                <div class="sol-content-body">
+                    <div class="sol-header">
+                        <div class="sol-number">02</div>
+                        <h3>Tối Ưu Năng Lượng & Tài Nguyên</h3>
+                    </div>
+                    <p>Tận dụng nguồn ánh sáng tự nhiên, sử dụng thiết bị tiết kiệm điện năng và khóa chặt vòi nước khi không sử dụng.</p>
+                    <div class="impact-pill">
+                        <strong>💡 Tác động trực tiếp:</strong> Cắt giảm phát thải CO2 từ các nhà máy nhiệt điện và bảo vệ nguồn tài nguyên nhiên liệu hóa thạch đang dần cạn kiệt.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Giải pháp 3 -->
+            <div class="solution-card">
+                <div class="sol-img-container">
+                    <img class="sol-img" src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=800&q=80" alt="Trồng cây xanh" onerror="this.src='https://placehold.co/800x600/22c55e/ffffff?text=Trong+Cay+Xanh'">
+                </div>
+                <div class="sol-content-body">
+                    <div class="sol-header">
+                        <div class="sol-number">03</div>
+                        <h3>Trồng Cây & Phủ Xanh Không Gian Sống</h3>
+                    </div>
+                    <p>Tích cực tham gia các phong trào trồng cây phủ xanh đô thị, duy trì các chậu cây cảnh nhỏ trong khuôn viên nhà và nơi làm việc.</p>
+                    <div class="impact-pill">
+                        <strong>💡 Tác động trực tiếp:</strong> Cung cấp Oxy tươi tự nhiên, lọc sạch bụi mịn PM2.5 trong không khí và làm giảm hiệu ứng đảo nhiệt đô thị.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Giải pháp 4: Túi Vải Canvas -->
+            <div class="solution-card">
+                <div class="sol-img-container">
+                    <img class="sol-img" src="https://images.unsplash.com/photo-1597484661643-2f5fef640dd1?auto=format&fit=crop&w=800&q=80" alt="Túi vải canvas thân thiện môi trường" onerror="this.src='https://placehold.co/800x600/22c55e/ffffff?text=Tui+Vai+Canvas'">
+                </div>
+                <div class="sol-content-body">
+                    <div class="sol-header">
+                        <div class="sol-number">04</div>
+                        <h3>Sử Dụng Túi Vải Canvas Đi Mua Sắm</h3>
+                    </div>
+                    <p>Mang theo túi vải canvas bền đẹp khi đi chợ, siêu thị hoặc mua sắm để hoàn toàn nói không với các loại túi nilon dùng một lần.</p>
+                    <div class="impact-pill">
+                        <strong>💡 Tác động trực tiếp:</strong> Mỗi chiếc túi canvas bền bỉ có thể thay thế tới 500 túi nilon trong suốt vòng đời của nó, giảm thiểu rác nhựa phân hủy hàng trăm năm ngoài tự nhiên.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Form Cam kết -->
+    <section id="contact" class="container">
+        <div class="form-card">
+            <div class="section-header" style="margin-bottom: 2.5rem;">
+                <h2>Hành Động Cùng EcoLife</h2>
+                <p>Hãy gửi lời cam kết của bạn để cùng cộng đồng lan tỏa thông điệp xanh</p>
+            </div>
+
+            <form id="ecoForm" onsubmit="handleFormSubmit(event)">
+                <div class="form-group">
+                    <label for="name">Họ và tên của bạn</label>
+                    <input type="text" id="name" class="form-control" placeholder="Ví dụ: Nguyễn Văn A" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="pledge">Hành động bạn cam kết thực hiện</label>
+                    <select id="pledge" class="form-control">
+                        <option value="canvas">Sử dụng túi vải canvas khi đi mua sắm</option>
+                        <option value="plastic">Hạn chế tối đa túi nilon & đồ nhựa 1 lần</option>
+                        <option value="energy">Tiết kiệm điện, nước sinh hoạt mỗi ngày</option>
+                        <option value="tree">Trồng & chăm sóc ít nhất 1 cây xanh/năm</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-cta" style="width: 100%; justify-content: center; margin-top: 10px;">
+                    <span>Xác Nhận Cam Kết</span>
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 <strong>EcoLife Project</strong>. Thiết kế với sứ mệnh bảo vệ môi trường xanh - sạch - đẹp.</p>
+    </footer>
+
+    <!-- SCRIPT TƯƠNG TÁC -->
+    <script>
+        // Cuộn trang mượt
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Thanh tiến trình cuộn trang
+        window.onscroll = function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("progress-bar").style.width = scrolled + "%";
+        };
+
+        // Xử lý gửi Form
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            alert(`Cảm ơn ${name} đã đồng hành cùng EcoLife! Cam kết sống xanh của bạn đã được ghi nhận 🎉`);
+            document.getElementById('ecoForm').reset();
+        }
+    </script>
+</body>
+</html>
